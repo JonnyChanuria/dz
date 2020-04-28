@@ -1,0 +1,84 @@
+package com.company;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        int b = 0;
+        int c = 0;
+        String phones = new String();
+        int kol[] = new int[3];
+        Date dt[] = new Date[3];
+        int prov[] = new int[3];
+        int prod[] = new int[3];
+        String prnm[] = new String[3];
+
+        String url = "jdbc:mysql://195.19.44.146:3306/user20?serverTimezone=UTC";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url,"user20","user20");
+            System.out.println("connected");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM shop");
+            Scanner in = new Scanner(System.in);
+            String input = in.nextLine();
+
+            while(resultSet.next()){
+                String column = resultSet.getString("name");
+                if(input.equals(column)) {
+                    b = resultSet.getInt("id");
+                    phones = resultSet.getString("phone") ;
+
+                }
+            }
+            resultSet = statement.executeQuery("SELECT * FROM purchase");
+            while(resultSet.next()){
+                int a = resultSet.getInt("shop_id");
+                if(b == a) {
+                   kol[c]=resultSet.getInt("quantity");
+                   dt[c]=resultSet.getDate("date");
+                   prov[c]=resultSet.getInt("provider_id");
+                   prod[c]=resultSet.getInt("product_id");
+                   c=c+1;
+                }
+            }
+            c = 0;
+            resultSet = statement.executeQuery("SELECT * FROM provider");
+            while(resultSet.next()){
+                if(c<3) {
+                    if (prov[c] == resultSet.getInt("id")) {
+                        prnm[c] = resultSet.getString("name");
+                        c = c + 1;
+                    }
+                }
+            }
+            c = 0;
+            resultSet = statement.executeQuery("SELECT * FROM product ");
+            while(resultSet.next()){
+                if(c<3) {
+                    if (prod[c] == resultSet.getInt("id")) {
+                        System.out.println("№" + (c + 1));
+                        System.out.println("shop: " + input);
+                        System.out.println("phone: " + phones);
+                        System.out.println("code: " + resultSet.getString("code"));
+                        System.out.println("toy name: " + resultSet.getString("name"));
+                        System.out.println("price: " + resultSet.getInt("price"));
+                        System.out.println("quantity: " + kol[c]);
+                        System.out.println("date: " + dt[c]);
+                        c = c + 1;
+                    }
+                }
+            }
+
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
