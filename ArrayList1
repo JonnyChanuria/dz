@@ -1,0 +1,38 @@
+package com.company;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        int n = 20;
+        ArrayList<Integer> first = new ArrayList<Integer>(n);
+        ArrayList<Integer> second = new ArrayList<Integer>();
+        ArrayList<Integer> third = new ArrayList<Integer>();
+        ArrayList<Integer> fourth = new ArrayList<Integer>();
+        Scanner in = new Scanner(System.in);
+        for(int i =0;i < n; i++){
+            first.add(in.nextInt());
+        }
+        for(int i = 0;i<n; i++){
+           if(first.get(i) %3==0){
+               second.add(first.get(i));
+           }
+            if(first.get(i) %2==0){
+                third.add(first.get(i));
+            }
+            if((first.get(i)%3!=0)&&(first.get(i)%2 !=0)){
+                fourth.add(first.get(i));
+            }
+        }
+        printList(second);
+        printList(third);
+        printList(fourth);
+    }
+    static void printList(ArrayList<Integer> b){
+        for(int i = 0; i<(b.size());i++){
+            System.out.println(b.get(i));
+        }
+        System.out.println();
+    }
+}
