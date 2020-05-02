@@ -1,0 +1,19 @@
+package com.company;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        int n = 5;
+        ArrayList<String> first = new ArrayList<String>(n);
+        Scanner in = new Scanner(System.in);
+        for(int i = 0; i<n;i++){
+            first.add(in.nextLine());
+        }
+        first.remove(2);
+        for(int i = first.size()-1;i>-1;i--){
+            System.out.println(first.get(i));
+        }
+    }
+}
